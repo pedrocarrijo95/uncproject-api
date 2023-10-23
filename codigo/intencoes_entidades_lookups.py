@@ -32,7 +32,6 @@ def attRelacoes():
     cursor = banco.conn.cursor()
     
     selectRelacoesIntencoesEntidades = "SELECT r.intent_id,i.int_enunciado,e.ent_entidade,e.func_id,f.func_fonte FROM intecao_entidade r LEFT JOIN intencao i ON r.int_id = i.int_id LEFT JOIN entidade e ON r.ent_id = e.ent_id LEFT JOIN funcao f ON r.func_id = f.func_id" #inner join para trazer descricoes
-    #selectR = "SELECT r.intent_id, COALESCE(i.int_enunciado, '-') AS int_enunciado, COALESCE(e.ent_entidade, '-') AS ent_entidade, COALESCE(e.func_id, 0) AS e_func_id, COALESCE(f.func_fonte, '-') AS func_fonte FROM intecao_entidade r LEFT JOIN intencao i ON r.int_id = i.int_id LEFT JOIN entidade e ON r.ent_id = e.ent_id LEFT JOIN funcao f ON r.func_id = f.func_id"
     cursor.execute(selectRelacoesIntencoesEntidades)
     tabela_relacao_intencao_entidades = cursor.fetchall()
 
@@ -57,17 +56,10 @@ def atualizarTabelas():
     attRelacoes()
     attFuncoes()
 
-    #selectRelacoesIntencoesFuncoes = "SELECT * FROM relacoes_intencoes_funcoes"
-    #cursor.execute(selectRelacoesIntencoesFuncoes)
-    #tabela_relacao_intencao_funcoes = cursor.fetchall()
-
 atualizarTabelas()
 
 
 def addIntencao(descricao,enunciados):
-    #global tabela_intencoes_enunciados
-    #tabela_intencoes_enunciados.append({intencao: enunciados})
-    #tabela_intencoes_enunciados.append([intencao,[enunciados]])
     # Criar um cursor para executar comandos SQL
 
     cursor = banco.conn.cursor()
@@ -83,8 +75,6 @@ def addIntencao(descricao,enunciados):
     return descricao
 
 def addEntidades(descricao,entidades,func_id = None):
-    #global tabela_entidades
-    #tabela_entidades.append([nome,[entidades],flagdb])
     cursor = banco.conn.cursor()
     # Executar uma consulta
     if func_id != None:
@@ -100,22 +90,6 @@ def addEntidades(descricao,entidades,func_id = None):
     return descricao
 
 def addRelacaoIntencaoEntidades(int_id,ent_id,func_id = None):
-    #global tabela_relacao_intencao_entidades
-    #enunciados = ''
-    #entidades = ''
-    #db = ''
-    #print(tabela_relacao_intencao_entidades)
-    '''for i in range(len(tabela_intencoes_enunciados)):
-        if tabela_intencoes_enunciados[i][0] == chave_intencao:
-            enunciados = tabela_intencoes_enunciados[i][1]
-            for j in range(len(tabela_entidades)):
-                if  tabela_entidades[j][0] == chave_entidades:
-                    entidades = tabela_entidades[j][1]
-                    db = tabela_entidades[j][2]
-                    break
-            break'''
-    #tabela_relacao_intencao_entidades.append([[enunciados],[entidades],db])
-    
     cursor = banco.conn.cursor()
     # Executar uma consulta
     if func_id != None:
@@ -146,9 +120,6 @@ def addFuncoes(func_nome,func_fonte,tipo):
     return func_nome
 
 def updateIntencao(int_id,descricao,enunciados):
-    #global tabela_intencoes_enunciados
-    #tabela_intencoes_enunciados.append({intencao: enunciados})
-    #tabela_intencoes_enunciados.append([intencao,[enunciados]])
     # Criar um cursor para executar comandos SQL
 
     cursor = banco.conn.cursor()
@@ -169,8 +140,6 @@ def updateIntencao(int_id,descricao,enunciados):
     return descricao
 
 def updateEntidades(ent_id,descricao,entidades,func_id = None):
-    #global tabela_entidades
-    #tabela_entidades.append([nome,[entidades],flagdb])
     cursor = banco.conn.cursor()
     # Executar uma consulta
     if func_id != None:
@@ -194,8 +163,6 @@ def updateEntidades(ent_id,descricao,entidades,func_id = None):
     return descricao
 
 def updateRelacaoIntencaoEntidades(intent_id,int_id,ent_id,func_id = None):
-    #global tabela_relacao_intencao_entidades
-    #tabela_entidades.append([nome,[entidades],flagdb])
     cursor = banco.conn.cursor()
     # Executar uma consulta
     if func_id != None:
@@ -219,9 +186,6 @@ def updateRelacaoIntencaoEntidades(intent_id,int_id,ent_id,func_id = None):
     return intent_id
 
 def updateFuncoes(func_id,func_nome,func_fonte,tipo):
-    #global tabela_intencoes_enunciados
-    #tabela_intencoes_enunciados.append({intencao: enunciados})
-    #tabela_intencoes_enunciados.append([intencao,[enunciados]])
     # Criar um cursor para executar comandos SQL
 
     cursor = banco.conn.cursor()
@@ -240,6 +204,78 @@ def updateFuncoes(func_id,func_nome,func_fonte,tipo):
     #intencoes_enunciados += [intencao,enunciados]
     atualizarTabelas()
     return func_id
+
+def deleteIntencao(int_id):
+    # Criar um cursor para executar comandos SQL
+
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    # Consulta SQL de atualização
+    delete_query = f"""
+        DELETE FROM intencao WHERE int_id = {int_id}
+    """
+    cursor.execute(delete_query)
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+
+    #intencoes_enunciados += [intencao,enunciados]
+    atualizarTabelas()
+    return int_id
+
+def deleteEntidade(ent_id):
+    # Criar um cursor para executar comandos SQL
+
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    # Consulta SQL de atualização
+    delete_query = f"""
+        DELETE FROM entidade WHERE ent_id = {ent_id}
+    """
+    cursor.execute(delete_query)
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+
+    #intencoes_enunciados += [intencao,enunciados]
+    atualizarTabelas()
+    return ent_id
+
+def deleteFuncao(func_id):
+    # Criar um cursor para executar comandos SQL
+
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    # Consulta SQL de atualização
+    delete_query = f"""
+        DELETE FROM funcao WHERE func_id = {func_id}
+    """
+    cursor.execute(delete_query)
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+
+    #intencoes_enunciados += [intencao,enunciados]
+    atualizarTabelas()
+    return func_id
+
+def deleteRelacaoIntencaoEntidade(intent_id):
+    # Criar um cursor para executar comandos SQL
+
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    # Consulta SQL de atualização
+    delete_query = f"""
+        DELETE FROM intecao_entidade WHERE ent_id = {intent_id}
+    """
+    cursor.execute(delete_query)
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+
+    #intencoes_enunciados += [intencao,enunciados]
+    atualizarTabelas()
+    return intent_id
 
             
       

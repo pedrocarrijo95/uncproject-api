@@ -30,10 +30,8 @@ def separar_intencao_entidade(comando,intent_id,enunciados,entidades,ent_func_id
     print(comando)
 
     enunciados = enunciados.split(',')
-    #print(enunciados)
     entidades = entidades.split(',')
-    #print(entidades)
-    #enunciados = enunciados.split()
+
     print(enunciados)
     for token in enunciados:
         print('token:' +str(token))
@@ -75,7 +73,7 @@ def separar_intencao_entidade(comando,intent_id,enunciados,entidades,ent_func_id
                     entidade += resp[token][0]
                     print("entidade encontrada")
                     break'''
-                
+            #tarefa no trello para pensar em como solucionar isso
         
         if func_fonte != "":
             fonte_resposta = func_fonte
@@ -234,59 +232,6 @@ def run_assistente(comando):
             return resp
         return 'reposta = None'
         #exemplo codigo = "resposta = unc.getEstoque('0000000001')" 
-        '''
-        #Varre a tabela de intencoes
-        for i in range(len(intencoes_entidades_lookups.tabela_intencoes_enunciados)):
-            chave_intencao = intencoes_entidades_lookups.tabela_intencoes_enunciados[i][0]
-
-            #Verifica se a intencão detectada é encontrada na tabela
-            if any(ext in intencao for ext in intencoes_entidades_lookups.tabela_intencoes_enunciados[i][1].split(',')):
-                print("intencao: "+intencao+" / ext: "+intencoes_entidades_lookups.tabela_intencoes_enunciados[i][1])
-                #Caso for encontrada, verifica qual funcão esta vinculada na intencão e varre a tabela de relacão (int-func)
-                for dicionario in intencoes_entidades_lookups.tabela_relacao_intencao_funcoes:
-                    #Quando encontrada a intencão dentro da tabela de relacão (int-func), é coletada o nome da funcão vinculada
-                    if chave_intencao in dicionario:
-                        print(dicionario)
-                        #Coleta do nome da funcão
-                        chave_funcao = dicionario[1]
-                        #Agora varre a tabela de funcões
-                        for dicionario_func in intencoes_entidades_lookups.tabela_funcoes: #[0] -> nome; [1] -> tipo; [2]  -> codigo
-                            #Encontrada a funcão pelo nome, é coletado o código vinculado a essa funcão
-                            if chave_funcao in dicionario_func[0]:
-                                #Coleta do código total da funcão
-                                codigo = dicionario_func[2]
-                                #Separando os outros campos dentro da coluna código
-                                pycomando = codigo.split(',')
-                                print(pycomando)
-                                print(dicionario_func[1])
-                                #Verificando o tipo de funcão (API/UNC etc..)
-                                if dicionario_func[1] == 'API':
-                                    print("chamando funcao")
-                                    return funcoes.chamarAPI(pycomando[0],pycomando[1],pycomando[2],pycomando[3],pycomando[4],entidade)
-                                elif dicionario_func[1] == "UNC":
-                                    #print("chamando api unc: "+str(dicionario_func))
-                                    #print("pycomando: "+str(pycomando[4]))
-
-                                    #Criando contexto para passar variaveis para o código a ser executado
-                                    contexto = {'entidade': entidade, 'unc': unc}
-
-                                    #Identar código
-                                    codigo_identado = autopep8.fix_code(pycomando[4])
-                                    print(codigo_identado)
-
-                                    #Exec e resposta do código passando o contexto
-                                    exec(codigo_identado,globals(),contexto)
-                                    resp = str(contexto.get("resposta"))
-
-                                    #Coleta da resposta
-                                    if resp != None:
-                                        return resp
-                                    return 'reposta = None'
-                                    #exemplo codigo = "resposta = unc.getEstoque('0000000001')" 
-                                    
-                                          
-    return resposta
-    '''
 
 def getJsonIntencoes():
     lista_de_dicionarios = []

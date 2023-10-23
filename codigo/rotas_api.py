@@ -49,7 +49,7 @@ def addEntidade():
     #ent_id auto_increment
     # Obtém os dados do corpo da solicitação em formato JSON
     data = request.get_json()
-
+    print("DATA="+str(data))
     # Verifica se 'ent_descricao' e 'ent_entidade' estão presentes nos dados
     if 'ent_descricao' in data and 'ent_entidade' in data:
         descricao = data['ent_descricao']
@@ -62,9 +62,7 @@ def addEntidade():
         return intencoes_entidades_lookups.addEntidades(descricao,entidade,func_id)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #descricao =  request.args.get('descricao')
-    #entidade =  request.args.get('entidade')
-    #func_id =  request.args.get('func_id')
+
 
 @app.route('/addRelacaoIntencaoEntidades',methods=['POST'])
 def addRelacaoIntecaoEntidades():
@@ -83,9 +81,7 @@ def addRelacaoIntecaoEntidades():
         return intencoes_entidades_lookups.addRelacaoIntencaoEntidades(int_id,ent_id,func_id)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #chave_intencao =  request.args.get('int_id')
-    #chave_entidades =  request.args.get('ent_id')
-    #func_id = request.args.get('func_id')
+
 
 @app.route('/addFuncao',methods=['POST'])
 def addFuncao():
@@ -104,11 +100,6 @@ def addFuncao():
         return intencoes_entidades_lookups.addFuncoes(func_nome,func_fonte,tipo)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #funcao =  request.args.get('func_nome')
-    #codigo =  request.args.get('func_fonte')
-    #tipo =  request.args.get('func_tipo')
-    #print(funcao,tipo,codigo)
-    #return intencoes_entidades_lookups.addFuncoes(funcao,tipo,codigo)
 
 
 #GETS 
@@ -172,8 +163,6 @@ def updateIntencao():
         return intencoes_entidades_lookups.updateIntencao(int_id,descricao,enunciados)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #descricao =  request.args.get('descricao')
-    #enunciados =  request.args.get('enunciado')
 
 @app.route('/updateEntidade',methods=['PUT'])
 def updateEntidade():
@@ -193,9 +182,6 @@ def updateEntidade():
         return intencoes_entidades_lookups.updateEntidades(ent_id,descricao,entidade,func_id)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #descricao =  request.args.get('descricao')
-    #entidade =  request.args.get('entidade')
-    #func_id =  request.args.get('func_id')
 
 @app.route('/updateRelacaoIntencaoEntidades',methods=['PUT'])
 def updateRelacaoIntencaoEntidades():
@@ -215,9 +201,6 @@ def updateRelacaoIntencaoEntidades():
         return intencoes_entidades_lookups.updateRelacaoIntencaoEntidades(intent_id,int_id,ent_id,func_id)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #chave_intencao =  request.args.get('int_id')
-    #chave_entidades =  request.args.get('ent_id')
-    #func_id = request.args.get('func_id')
 
 @app.route('/updateFuncao',methods=['PUT'])
 def updateFuncao():
@@ -237,8 +220,52 @@ def updateFuncao():
         return intencoes_entidades_lookups.updateFuncoes(func_id,func_nome,func_fonte,tipo)
     else:
         return variaveis.MENSAGEM_ERRO_API
-    #funcao =  request.args.get('func_nome')
-    #codigo =  request.args.get('func_fonte')
-    #tipo =  request.args.get('func_tipo')
-    #print(funcao,tipo,codigo)
-    #return intencoes_entidades_lookups.addFuncoes(funcao,tipo,codigo)
+
+#DELETES
+@app.route('/deleteIntencao',methods=['DELETE'])
+def deleteIntencao():
+    #id auto_increment
+    # Obtém os dados do corpo da solicitação em formato JSON
+    data = request.get_json()
+
+    if 'int_id' in data:
+        int_id = data['int_id']
+        return intencoes_entidades_lookups.deleteIntencao(int_id)
+    else:
+        return variaveis.MENSAGEM_ERRO_API
+    
+@app.route('/deleteEntidade',methods=['DELETE'])
+def deleteEntidade():
+    #id auto_increment
+    # Obtém os dados do corpo da solicitação em formato JSON
+    data = request.get_json()
+
+    if 'ent_id' in data:
+        ent_id = data['ent_id']
+        return intencoes_entidades_lookups.deleteEntidade(ent_id)
+    else:
+        return variaveis.MENSAGEM_ERRO_API
+    
+@app.route('/deleteFuncao',methods=['DELETE'])
+def deleteEntidade():
+    #id auto_increment
+    # Obtém os dados do corpo da solicitação em formato JSON
+    data = request.get_json()
+
+    if 'func_id' in data:
+        func_id = data['func_id']
+        return intencoes_entidades_lookups.deleteFuncao(func_id)
+    else:
+        return variaveis.MENSAGEM_ERRO_API
+    
+@app.route('/deleteRelacaoIntencaoEntidade',methods=['DELETE'])
+def deleteEntidade():
+    #id auto_increment
+    # Obtém os dados do corpo da solicitação em formato JSON
+    data = request.get_json()
+
+    if 'intent_id' in data:
+        intent_id = data['intent_id']
+        return intencoes_entidades_lookups.deleteRelacaoIntencaoEntidade(intent_id)
+    else:
+        return variaveis.MENSAGEM_ERRO_API
