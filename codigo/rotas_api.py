@@ -10,15 +10,14 @@ app = Flask(__name__)
 def main():
     # Obtém os dados do corpo da solicitação em formato JSON
     data = request.get_json()
-    print('aaaa')
     # Verifica se 'descricao' e 'enunciado' estão presentes nos dados
     if 'comando' in data:
         comando = data['comando']
         #resposta = 'local'
         resposta = funcoes.run_assistente(comando)
-        if resposta != "" and resposta != " ":
+        if resposta != "" and resposta != " " and resposta != None:
             return resposta
-        return 'comando enviado'
+        return 'resposta não encontrada'
     else:
         return variaveis.MENSAGEM_ERRO_API
     #comando =  request.args.get('comando')
