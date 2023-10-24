@@ -247,7 +247,7 @@ def deleteEntidade():
         return variaveis.MENSAGEM_ERRO_API
     
 @app.route('/deleteFuncao',methods=['DELETE'])
-def deleteEntidade():
+def deleteFuncao():
     #id auto_increment
     # Obtém os dados do corpo da solicitação em formato JSON
     data = request.get_json()
@@ -259,7 +259,7 @@ def deleteEntidade():
         return variaveis.MENSAGEM_ERRO_API
     
 @app.route('/deleteRelacaoIntencaoEntidade',methods=['DELETE'])
-def deleteEntidade():
+def deleteRelacaoIntencaoEntidade():
     #id auto_increment
     # Obtém os dados do corpo da solicitação em formato JSON
     data = request.get_json()

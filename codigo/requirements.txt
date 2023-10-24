@@ -17,7 +17,7 @@ googletrans==4.0.0-rc1
 secure-smtplib
 tuya-connector-python
 tuya-iot-py-sdk
-psycopg2
+psycopg2-binary
 flask_cors
 
 
