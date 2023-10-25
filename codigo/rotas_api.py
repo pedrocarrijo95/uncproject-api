@@ -101,7 +101,7 @@ def addFuncao():
         return variaveis.MENSAGEM_ERRO_API
 
 @app.route('/addAPI',methods=['POST'])
-def addFuncao():
+def addAPI():
     #func_id auto_increment
     # Obtém os dados do corpo da solicitação em formato JSON
     data = request.get_json()
