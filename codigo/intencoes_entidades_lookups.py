@@ -7,6 +7,7 @@ tabela_entidades = []
 tabela_relacao_intencao_entidades = []
 tabela_funcoes = []
 tabela_relacao_intencao_funcoes = []
+tabela_apis = []
 
 
 def attIntencoes():
@@ -46,6 +47,15 @@ def attFuncoes():
     tabela_funcoes = cursor.fetchall()
     cursor.close()
     
+def attAPI():
+    global tabela_apis
+    cursor = banco.conn.cursor()
+
+    selectAPIs = "SELECT api_id,api_json FROM api"
+    cursor.execute(selectAPIs)
+    tabela_apis = cursor.fetchall()
+    cursor.close()
+    
 
 
 
@@ -55,6 +65,7 @@ def atualizarTabelas():
     attEntidades()
     attRelacoes()
     attFuncoes()
+    attAPI()
 
 atualizarTabelas()
 
@@ -119,6 +130,20 @@ def addFuncoes(func_nome,func_fonte,tipo):
     atualizarTabelas()
     return func_nome
 
+def addAPI(api_json):
+    global tabela_funcoes
+
+    #tabela_funcoes.append((funcao,tipo,codigo))
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    insert_query = f"""INSERT INTO api (api_json) VALUES ('{api_json}')"""
+    cursor.execute(insert_query) #usar aspas duplas no codigo
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+    atualizarTabelas()
+    return api_json
+
 def updateIntencao(int_id,descricao,enunciados):
     # Criar um cursor para executar comandos SQL
 
@@ -162,7 +187,7 @@ def updateEntidades(ent_id,descricao,entidades,func_id = None):
     atualizarTabelas()
     return descricao
 
-def updateRelacaoIntencaoEntidades(intent_id,int_id,ent_id,func_id = None):
+def updateRelacaoIntencaoEntidade(intent_id,int_id,ent_id,func_id = None):
     cursor = banco.conn.cursor()
     # Executar uma consulta
     if func_id != None:
@@ -204,6 +229,27 @@ def updateFuncoes(func_id,func_nome,func_fonte,tipo):
     #intencoes_enunciados += [intencao,enunciados]
     atualizarTabelas()
     return func_id
+
+
+def updateAPI(api_id,api_json):
+    # Criar um cursor para executar comandos SQL
+
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    # Consulta SQL de atualização
+    update_query = f"""
+        UPDATE api
+        SET api_json = '{api_json}'
+        WHERE api_id = {api_id}
+    """
+    cursor.execute(update_query)
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+
+    #intencoes_enunciados += [intencao,enunciados]
+    atualizarTabelas()
+    return api_id
 
 def deleteIntencao(int_id):
     # Criar um cursor para executar comandos SQL
@@ -276,6 +322,24 @@ def deleteRelacaoIntencaoEntidade(intent_id):
     #intencoes_enunciados += [intencao,enunciados]
     atualizarTabelas()
     return intent_id
+
+def deleteAPI(api_id):
+    # Criar um cursor para executar comandos SQL
+
+    cursor = banco.conn.cursor()
+    # Executar uma consulta
+    # Consulta SQL de atualização
+    delete_query = f"""
+        DELETE FROM api WHERE api_id = {api_id}
+    """
+    cursor.execute(delete_query)
+    banco.conn.commit()
+    # Fechar o cursor
+    cursor.close()
+
+    #intencoes_enunciados += [intencao,enunciados]
+    atualizarTabelas()
+    return api_id
 
             
       

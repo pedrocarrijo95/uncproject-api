@@ -284,3 +284,14 @@ def getJsonRelacoes():
         }
         lista_de_dicionarios.append(dicionario)
     return lista_de_dicionarios
+
+def getJsonAPIs():
+    lista_de_dicionarios = []
+
+    for row in intencoes_entidades_lookups.tabela_apis:
+        dicionario = {
+            "api_id": row[0],
+            "api_json": row[1],
+        }
+        lista_de_dicionarios.append(dicionario)
+    return lista_de_dicionarios
