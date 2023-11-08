@@ -230,7 +230,7 @@ def run_assistente(comando):
         #Coleta da resposta
         if resp != None:
             return resp
-        return 'reposta = None'
+        return 'reposta = resposta não encontrada'
         #exemplo codigo = "resposta = unc.getEstoque('0000000001')" 
 
 def getJsonIntencoes():

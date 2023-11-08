@@ -32,7 +32,7 @@ def attRelacoes():
     global tabela_relacao_intencao_entidades
     cursor = banco.conn.cursor()
     
-    selectRelacoesIntencoesEntidades = "SELECT r.intent_id,i.int_enunciado,e.ent_entidade,e.func_id,f.func_fonte FROM intecao_entidade r LEFT JOIN intencao i ON r.int_id = i.int_id LEFT JOIN entidade e ON r.ent_id = e.ent_id LEFT JOIN funcao f ON r.func_id = f.func_id" #inner join para trazer descricoes
+    selectRelacoesIntencoesEntidades = "SELECT r.intent_id,i.int_enunciado,e.ent_entidade,e.func_id,f.func_fonte FROM intencao_entidade r LEFT JOIN intencao i ON r.int_id = i.int_id LEFT JOIN entidade e ON r.ent_id = e.ent_id LEFT JOIN funcao f ON r.func_id = f.func_id" #inner join para trazer descricoes
     cursor.execute(selectRelacoesIntencoesEntidades)
     tabela_relacao_intencao_entidades = cursor.fetchall()
 
@@ -104,10 +104,10 @@ def addRelacaoIntencaoEntidades(int_id,ent_id,func_id = None):
     cursor = banco.conn.cursor()
     # Executar uma consulta
     if func_id != None:
-        insert_query = f"""INSERT INTO intecao_entidade (int_id,ent_id,func_id) VALUES ('{int_id}','{ent_id}',{func_id})"""
+        insert_query = f"""INSERT INTO intencao_entidade (int_id,ent_id,func_id) VALUES ('{int_id}','{ent_id}',{func_id})"""
         cursor.execute(insert_query)
     else:
-        insert_query = f"""INSERT INTO intecao_entidade (int_id,ent_id) VALUES ('{int_id}','{ent_id}')"""
+        insert_query = f"""INSERT INTO intencao_entidade (int_id,ent_id) VALUES ('{int_id}','{ent_id}')"""
         cursor.execute(insert_query)
     banco.conn.commit()
     # Fechar o cursor
@@ -192,14 +192,14 @@ def updateRelacaoIntencaoEntidade(intent_id,int_id,ent_id,func_id = None):
     # Executar uma consulta
     if func_id != None:
         update_query = f"""
-            UPDATE intecao_entidade
+            UPDATE intencao_entidade
             SET int_id = '{int_id}', ent_id = '{ent_id}', func_id = {func_id}
             WHERE id = {intent_id}
         """
         cursor.execute(update_query)
     else:    
         update_query = f"""
-            UPDATE intecao_entidade
+            UPDATE intencao_entidade
             SET int_id = '{int_id}', ent_id = '{ent_id}'
             WHERE intent_id = {intent_id}
         """
@@ -218,7 +218,7 @@ def updateFuncoes(func_id,func_nome,func_fonte,tipo):
     # Consulta SQL de atualização
     update_query = f"""
         UPDATE funcao
-        SET func_nome = '{func_nome}', func_fonte = '{func_fonte}', tipo = '{tipo}'
+        SET func_nome = '{func_nome}', func_fonte = '{func_fonte}', func_tipo = '{tipo}'
         WHERE func_id = {func_id}
     """
     cursor.execute(update_query)
@@ -296,6 +296,7 @@ def deleteFuncao(func_id):
     delete_query = f"""
         DELETE FROM funcao WHERE func_id = {func_id}
     """
+    print(delete_query)
     cursor.execute(delete_query)
     banco.conn.commit()
     # Fechar o cursor
@@ -312,7 +313,7 @@ def deleteRelacaoIntencaoEntidade(intent_id):
     # Executar uma consulta
     # Consulta SQL de atualização
     delete_query = f"""
-        DELETE FROM intecao_entidade WHERE ent_id = {intent_id}
+        DELETE FROM intencao_entidade WHERE ent_id = {intent_id}
     """
     cursor.execute(delete_query)
     banco.conn.commit()
