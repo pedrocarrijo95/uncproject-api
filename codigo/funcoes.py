@@ -31,15 +31,25 @@ def separar_intencao_entidade(comando,intent_id,enunciados,entidades,ent_func_id
 
     enunciados = enunciados.split(',')
     entidades = entidades.split(',')
+    
+    possiveisIntecoes = []
+    contIntencoes = 0
 
     print(enunciados)
     for token in enunciados:
+        contIntencoes += 1
         print('token:' +str(token))
         if token.lower() in comando.lower():
             print("caiu enunciado")
             intencao += token + " "
-            break
-    if intencao != "": #Só passa para entidades se tiver intenção descoberta
+            objIntencao = [contIntencoes,intencao]
+            possiveisIntecoes.append(objIntencao)
+            
+    # Encontrar o elemento com o maior número na posição 0
+    if len(objIntencao) > 0:
+        intencao_decidida = max(possiveisIntecoes, key=lambda x: x[0])  
+        print(intencao_decidida)
+    if intencao_decidida != None: #Só passa para entidades se tiver intenção descoberta
         print("ent_func_id? "+str(ent_func_id)) #tem função para entidades?
         if ent_func_id == None: #Se não tiver, utiliza as inseridas manualmente
             for token in entidades:
@@ -85,7 +95,7 @@ def separar_intencao_entidade(comando,intent_id,enunciados,entidades,ent_func_id
             #resp_simples = cursor.fetchall()
             cursor.close()
                 
-    return intencao,entidade,fonte_resposta
+    return intencao_decidida[1],entidade,fonte_resposta
 
 #separar_intencao_entidade("qual o estoque do item BOBINA GALVALUME 0,50 X 1200 AZ150",["estoque,a"],["nometabela,a"],["sim"])
 

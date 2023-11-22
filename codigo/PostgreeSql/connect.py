@@ -16,10 +16,11 @@ conn = psycopg2.connect(
     password="OFqWGZvmdxiUwI7xekUdIAXkPHBJLS5D"
 )
 '''
-
-conn = psycopg2.connect(
-    host="4.180.124.44",
-    database="DB_AI",
-    user="root",
-    password="@‌AI+UNC23102023"
-)
+def conectarBanco():
+    conn = psycopg2.connect(
+        host="4.180.124.44",
+        database="DB_AI",
+        user="root",
+        password="@‌AI+UNC23102023"
+    )
+    return conn
